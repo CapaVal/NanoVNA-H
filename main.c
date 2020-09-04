@@ -2189,6 +2189,14 @@ static const ShellCommand commands[] =
     { NULL, NULL }
 };
 
+#ifdef SHELLONUART
+static const ShellConfig shell_cfg2 =
+{
+    .sc_channel  = (BaseSequentialStream *)&SD1,
+    .sc_commands = commands
+};
+#endif // SHELLONUART
+
 static const ShellConfig shell_cfg1 =
 {
     .sc_channel  = (BaseSequentialStream *)&SDU1,
@@ -2232,6 +2240,14 @@ int main(void)
 
     // MCO on PA8
     //palSetPadMode(GPIOA, 8, PAL_MODE_ALTERNATE(0));
+
+  #ifdef SHELLONUART
+/*
+   * Initializes a UART1 serial driver.
+   */
+    sdObjectInit(&SD1, 0, 0);  // no callbacks
+    sdStart(&SD1, 0);  // default UART config
+  #endif // SHELLONUART
   /*
    * Initializes a serial-over-USB CDC driver.
    */
@@ -2309,6 +2325,16 @@ int main(void)
                 shellThread, (void*)&shell_cfg1);
             chThdWait(shelltp);               /* Waiting termination.             */
         }
+#ifdef SHELLONUART
+        else //         if (SDU1.config->usbp->state == USB_ACTIVE) 
+        {
+            thread_t *shelltp = chThdCreateStatic(
+                waThread2, sizeof(waThread2),
+                NORMALPRIO + 1,
+                shellThread, (void*)&shell_cfg2);
+            chThdWait(shelltp);               /* Waiting termination.             */
+        }
+#endif // SHELLONUART
         chThdSleepMilliseconds(1000);
     }
 }

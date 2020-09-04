@@ -28,6 +28,7 @@
 //#define __USE_STDIO__
 //#define __DAC__
 //#define __CMD_TIME__
+#define SHELLONUART 1
 /*
  * main.c
  */
