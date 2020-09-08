@@ -2245,7 +2245,7 @@ int main(void)
 /*
    * Initializes a UART1 serial driver.
    */
-    sdObjectInit(&SD1, 0, 0);  // no callbacks
+   // sdObjectInit(&SD1, 0, 0);  // no callbacks
     sdStart(&SD1, 0);  // default UART config
   #endif // SHELLONUART
   /*
@@ -2264,7 +2264,12 @@ int main(void)
     usbStart(serusbcfg.usbp, &usbcfg);
     usbConnectBus(serusbcfg.usbp);
 
-
+#ifdef SHELLONUART
+/*
+   * delay to allow USB serial connext
+   */
+   chThdSleepMilliseconds(1000);
+#endif // SHELLONUART
     /*
     * Initialize graph plotting
     */
