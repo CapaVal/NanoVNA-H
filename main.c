@@ -2245,8 +2245,7 @@ int main(void)
 /*
    * Initializes a UART1 serial driver.
    */
-   // sdObjectInit(&SD1, 0, 0);  // no callbacks
-    sdStart(&SD1, 0);  // default UART config
+    sdStart(&SD1, 0);  // 2nd parameter is the serial config. Null takes default UART config == 38400,8,N,1 no flow control
   #endif // SHELLONUART
   /*
    * Initializes a serial-over-USB CDC driver.
@@ -2266,7 +2265,8 @@ int main(void)
 
 #ifdef SHELLONUART
 /*
-   * delay to allow USB serial connext
+   * delay to allow USB serial connection to completed.
+   * This is protect against a system that takes too long at startup to connect USB and thus the serial-over-USB won't be initialized.
    */
    chThdSleepMilliseconds(1000);
 #endif // SHELLONUART
@@ -2331,6 +2331,9 @@ int main(void)
             chThdWait(shelltp);               /* Waiting termination.             */
         }
 #ifdef SHELLONUART
+/* 
+  * If the USB isn't active then start the shell on the UART.
+  */
         else //         if (SDU1.config->usbp->state == USB_ACTIVE) 
         {
             thread_t *shelltp = chThdCreateStatic(

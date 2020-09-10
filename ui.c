@@ -649,9 +649,10 @@ show_logo(void)
   ili9341_drawstring_5x7("2016-2019 Copyright @edy555", x, y += 10, 0xffff, 0x0000);
   ili9341_drawstring_5x7("Licensed under GPL. See: https://github.com/ttrftech/NanoVNA", x, y += 10, 0xffff, 0x0000);
 #ifdef SHELLONUART
-  ili9341_drawstring_5x7("With Shell on UART changes", x, y += 10, 0xffff, 0x0000);
-#endif // SHELLONUART
+   ili9341_drawstring_5x7("Version: " VERSION " with shell on UART", x, y += 10, 0xffff, 0x0000);
+#else
   ili9341_drawstring_5x7("Version: " VERSION, x, y += 10, 0xffff, 0x0000);
+#endif // SHELLONUART
   ili9341_drawstring_5x7("Build Time: " __DATE__ " - " __TIME__, x, y += 10, 0xffff, 0x0000);
 //  y += 5;
 //  ili9341_drawstring_5x7("Kernel: " CH_KERNEL_VERSION, x, y += 10, 0xffff, 0x0000);
@@ -664,7 +665,7 @@ show_logo(void)
     y += 14;
 
     ili9341_drawstring_7x13("NANOVNA.COM", x+100, y += 15, 0xffff, 0x0000);
-    ili9341_drawstring_7x13("https://github.com/hugen79/NanoVNA-H plus UART", x, y += 15, 0xffff, 0x0000);
+    ili9341_drawstring_7x13("https://github.com/hugen79/NanoVNA-H", x, y += 15, 0xffff, 0x0000);
     ili9341_drawstring_7x13("Based on edy555 design", x, y += 15, 0xffff, 0x0000);
     ili9341_drawstring_7x13("2016-2019 Copyright @edy555", x, y += 15, 0xffff, 0x0000);
     ili9341_drawstring_7x13("https://github.com/ttrftech/NanoVNA", x, y += 15, 0xffff, 0x0000);
